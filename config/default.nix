@@ -22,8 +22,8 @@
 
   opts = {
     number = true;
-    colorcolumn = "80";
-    relativenumber = true;
+    colorcolumn = "100";
+    relativenumber = false;
     shiftwidth = 2;
     tabstop = 2;
     wrap = false;
@@ -42,10 +42,10 @@
   # Disable formatting on-save by default.
   extraConfigLua = # lua
     ''
-      	vim.api.nvim_create_autocmd("VimEnter", {
-      		callback = function()
-      			vim.cmd("FormatDisable")
-      		end,
-      	})
+        vim.api.nvim_create_autocmd("VimEnter", {
+          callback = function()
+            vim.cmd("FormatDisable")
+          end,
+        })
     '';
 }
