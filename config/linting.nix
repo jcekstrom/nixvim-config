@@ -1,55 +1,38 @@
 # All configuration related to linting languages
+{ pkgs, ... }:
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-let
-  ls = config.language_support;
-in
-{
-  extraPackages =
-    with pkgs;
-    [
-      clang-tools
-      eslint_d
-      golangci-lint
-			#nodePackages.jsonlint # TODO: Find replacment
-      markdownlint-cli
-      ruff
-      shellcheck
-      yamllint
-    ]
-    ++ lib.optionals ls.lua.enable [ pkgs.luajitPackages.luacheck ]
-    ++ lib.optionals ls.lua.enable [ pkgs.nixpkgs-fmt ];
+  extraPackages = with pkgs; [
+    clang-tools
+    eslint_d
+    golangci-lint
+    luajitPackages.luacheck
+    markdownlint-cli
+    nixpkgs-fmt
+    ruff
+    shellcheck
+    yamllint
+  ];
 
   plugins = {
     lint = {
       enable = true;
-      lintersByFt =
-        {
-          c = [ "clangtidy" ];
-          cpp = [ "clangtidy" ];
-          css = [ "eslint_d" ];
-          go = [ "golangcilint" ];
-          javascript = [ "eslint_d" ];
-          javascriptreact = [ "eslint_d" ];
-					# json = [ "jsonlint" ];
-          markdownlint = [ "markdownlint" ];
-
-          python = [ "ruff" ];
-          sh = [ "shellcheck" ];
-          typescript = [ "eslint_d" ];
-          typescriptreact = [ "eslint_d" ];
-          yaml = [ "yamllint" ];
-        }
-        // lib.optionalAttrs ls.lua.enable {
-          lua = [ "luacheck" ];
-        }
-        // lib.optionalAttrs ls.nix.enable {
-          nix = [ "nix" ];
-        };
+      lintersByFt = {
+        c = [ "clangtidy" ];
+        cpp = [ "clangtidy" ];
+        css = [ "eslint_d" ];
+        go = [ "golangcilint" ];
+        javascript = [ "eslint_d" ];
+        javascriptreact = [ "eslint_d" ];
+        json = [ "jsonlint" ];
+        lua = [ "luacheck" ];
+        markdownlint = [ "markdownlint" ];
+        nix = [ "nix" ];
+        python = [ "ruff" ];
+        sh = [ "shellcheck" ];
+        typescript = [ "eslint_d" ];
+        typescriptreact = [ "eslint_d" ];
+        yaml = [ "yamllint" ];
+      };
     };
     trouble = {
       enable = true;

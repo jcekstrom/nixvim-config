@@ -39,10 +39,11 @@
 
           (final: prev: {
             mbake = nixpkgs-unstable.legacyPackages.${system}.mbake;
+            opencode = nixpkgs-unstable.legacyPackages.${system}.opencode;
           })
 
         ]
-				# Fix for building rustfmt on Darwin
+        # Fix for building rustfmt on Darwin
         ++ nixpkgs.lib.optional (system == "aarch64-darwin" || system == "x86_64-darwin") (
           final: prev: {
             rustfmt = prev.rustfmt.overrideAttrs (old: {
@@ -52,7 +53,7 @@
         )
       );
     in
-    {
+      {
       packages = forAllSystems (
         system:
         let
@@ -68,9 +69,9 @@
 
           isLinux = pkgs.stdenv.isLinux;
         in
-        {
-          default = nvim;
-        }
+          {
+            default = nvim;
+          }
         // pkgs.lib.optionalAttrs isLinux {
           dockerImage = pkgs.dockerTools.buildImage {
             name = "nixvim-dev-container";
@@ -106,7 +107,7 @@
           nvim = self.packages.${system}.default;
           runtimePath = "${nvim}/share/nvim/runtime";
         in
-        {
+          {
           default = pkgs.mkShell {
             name = "Nixvim 25.05 dev-shell";
 
@@ -130,7 +131,7 @@
               echo "[devShell] LUA_PATH=$LUA_PATH"
 
               alias vim=nvim
-            '';
+              '';
           };
         }
       );
@@ -141,7 +142,7 @@
           nvim = self.packages.${system}.default;
           nixvimLib = nixvim.lib.${system};
         in
-        {
+          {
           default = nixvimLib.check.mkTestDerivationFromNvim {
             inherit nvim;
             name = "A nixvim configuration";
