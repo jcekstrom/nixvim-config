@@ -1,46 +1,15 @@
 { lib, pkgs, ... }:
 {
-  extraPackages = with pkgs; [
-		opencode
-  ];
+  # copilot-lua satisfies sidekick's assertion; NES is disabled below
+  plugins.copilot-lua.enable = true;
 
-  # Show whitespace for stupid languages that are sensitive to whitespace.
-  autoCmd = [
-  ];
-
-	extraPlugins = [
-    (pkgs.vimUtils.buildVimPlugin {
-      pname = "lazyjj.nvim";
-      version = "unstable-2025-06-18";
-
-      src = pkgs.fetchFromGitHub {
-        owner = "pete3n";
-        repo = "";
-      };
-
-      dependencies = [
-        pkgs.vimPlugins.nvim-lspconfig
-        pkgs.vimPlugins.nvim-treesitter
-      ];
-
-      #nvimRequireCheck = [ "ninjection" ];
-
-      meta = {
-        description = "Edit injected languages with Treesitter and LSP support";
-        homepage = "https://github.com/pete3n/ninjection.nvim";
-        license = pkgs.lib.licenses.mit;
-      };
-    })
-
-
-	];
-  plugins = {
+  plugins.sidekick = {
+    enable = true;
+    settings = {
+      nes.enabled = false;
+    };
   };
 
-  keymaps = [
-  ];
-
-  extraConfigLuaPost = # lua
-    ''
-    '';
+  dependencies.opencode.enable = true;
+  dependencies.claude-code.enable = true;
 }

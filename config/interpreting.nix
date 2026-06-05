@@ -41,10 +41,11 @@ in
   ];
 
   diagnostic.settings = {
-    virtual_lines = {
-      current_line = true;
+    virtual_lines = false;  # Explicitly disable virtual lines
+    virtual_text = {
+      severity_sort = true;
+      source = "if_many";
     };
-    virtual_text = false;
   };
 
   lsp = {

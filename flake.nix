@@ -26,8 +26,16 @@
 
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
 
+      unstablePkgsFor = system: import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
       overlaysBySystem = forAllSystems (
         system:
+        let
+          unstable = unstablePkgsFor system;
+        in
         [
           (final: prev: {
             bashdb = prev.bashdb.overrideAttrs (oldAttrs: {
@@ -38,8 +46,9 @@
           })
 
           (final: prev: {
-            mbake = nixpkgs-unstable.legacyPackages.${system}.mbake;
-            opencode = nixpkgs-unstable.legacyPackages.${system}.opencode;
+            mbake = unstable.mbake;
+            opencode = unstable.opencode;
+            claude-code = unstable.claude-code;
           })
 
         ]
@@ -60,6 +69,7 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = overlaysBySystem.${system};
+            config.allowUnfree = true;
           };
 
           nvim = nixvim.legacyPackages.${system}.makeNixvimWithModule {
@@ -103,6 +113,7 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = overlaysBySystem.${system};
+            config.allowUnfree = true;
           };
           nvim = self.packages.${system}.default;
           runtimePath = "${nvim}/share/nvim/runtime";
