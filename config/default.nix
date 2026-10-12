@@ -33,23 +33,26 @@
   };
 
   opts = {
-    number = true;
-    colorcolumn = "100";
-    relativenumber = false;
-    shiftwidth = 2;
-		expandtab = true;
-    tabstop = 2;
-    wrap = false;
-    swapfile = false; # Undotree
     backup = false; # Undotree
-    undofile = true;
+    foldlevelstart = 99;
     hlsearch = false;
     incsearch = true;
+    listchars = {
+      tab = "» ";
+      trail = "·";
+      nbsp = "␣";
+      lead = "·";
+    };
+    number = true;
+    colorcolumn = "120";
+    relativenumber = false;
+    shiftwidth = 2;
+    swapfile = false; # Undotree
+    tabstop = 4;
     termguicolors = true;
-    scrolloff = 8;
-    signcolumn = "yes";
+    undofile = true;
     updatetime = 50;
-    foldlevelstart = 99;
+    wrap = false;
   };
 
   # Disable formatting on-save by default.
