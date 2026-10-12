@@ -3,7 +3,7 @@
 {
   imports = [
     ./modules/languages.nix
-    ./ai.nix
+    #./ai.nix
     ./completing.nix
     ./debugging.nix
     ./editing.nix
